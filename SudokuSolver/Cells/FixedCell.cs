@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SudokuSolver.Cells
+namespace Sudoku.Cells
 {
   public class FixedCell : Cell
   {
