@@ -6,10 +6,40 @@ using System.Collections.Generic;
 
 namespace Sudoku.Generator
 {
-    public class SudokuGenerator
+    public class SudokuGenerator : ISudokuGenerator
     {
         private Dictionary<int, List<int>> m_AvailableNumbers = new Dictionary<int, List<int>>();
         private ISudokuValidator m_Validator = new SudokuValidator();
+
+        public ISudokuPuzzle Generate(Configuration config, int? seed = null)
+        {
+            if (seed == null)
+                seed = new Random().Next();
+
+            SudokuPuzzle puzzle = new SudokuPuzzle();
+
+            m_AvailableNumbers.Clear();
+
+            int i = 0;
+
+            while (i < 81)
+            {
+                if (!TryGetNextNumber(i, (int)seed, out int val))
+                {
+                    puzzle.Cells[i].Value = 0;
+                    i--;
+                    continue;
+                }
+
+                puzzle.Cells[i].Value = val;
+
+                if (m_Validator.ValidateSudoku(puzzle))
+                    i++;
+            }
+
+            AdjustPuzzleToConfig(puzzle, config, (int)seed);
+            return puzzle;
+        }
 
         private void AdjustPuzzleToConfig(ISudokuPuzzle sudoku, Configuration config, int seed)
         {
@@ -51,38 +81,8 @@ namespace Sudoku.Generator
                     return 0;
 
                 default:
-                    throw new NotImplementedException($"{config.ToString()} is not implemented");
+                    throw new NotImplementedException($"{config} is not implemented");
             }
-        }
-
-        public ISudokuPuzzle Generate(Configuration config, int? seed = null)
-        {
-            if (seed == null)
-                seed = new Random().Next();
-
-            SudokuPuzzle puzzle = new SudokuPuzzle();
-
-            m_AvailableNumbers.Clear();
-
-            int i = 0;
-
-            while (i < 81)
-            {
-                if (!TryGetNextNumber(i, (int)seed, out int val))
-                {
-                    puzzle.Cells[i].Value = 0;
-                    i--;
-                    continue;
-                }
-
-                puzzle.Cells[i].Value = val;
-
-                if (m_Validator.ValidateSudoku(puzzle))
-                    i++;
-            }
-
-            AdjustPuzzleToConfig(puzzle, config, (int)seed);
-            return puzzle;
         }
 
         private bool TryGetNextNumber(int id, int seed, out int num)

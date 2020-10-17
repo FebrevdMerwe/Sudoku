@@ -1,4 +1,5 @@
 ﻿using Sudoku.Cells;
+using Sudoku.Exceptions;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,11 +12,17 @@ namespace Sudoku.Puzzle
 
         public SudokuPuzzle(List<Cell> cells)
         {
+            if (cells.Count != 81)
+                throw new InvalidPuzzleException();
+
             Cells = cells;
         }
 
         public SudokuPuzzle(string input)
         {
+            if (input.Length != 81)
+                throw new InvalidPuzzleException();
+
             Cells = new List<Cell>();
             ParseSudoku(input);
         }
