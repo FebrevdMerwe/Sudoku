@@ -7,6 +7,6 @@ namespace Sudoku.Generator
 {
     public interface ISudokuGenerator
     {
-        ISudokuPuzzle Generate(Configuration config, int? seed = null);
+        ISudokuPuzzle Generate(SudokuDifficulty config, int? seed = null);
     }
 }

@@ -8,6 +8,8 @@ namespace Sudoku.Puzzle
 {
     public class SudokuPuzzle : ISudokuPuzzle
     {
+        public int Id { get; }
+
         public List<Cell> Cells { get; }
 
         public SudokuPuzzle(List<Cell> cells)
@@ -27,8 +29,10 @@ namespace Sudoku.Puzzle
             ParseSudoku(input);
         }
 
-        public SudokuPuzzle()
+        public SudokuPuzzle(int id)
         {
+            Id = id;
+
             Cells = new List<Cell>();
             for (int i = 0; i < 81; i++)
             {

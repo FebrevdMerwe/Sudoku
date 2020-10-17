@@ -5,6 +5,8 @@ namespace Sudoku.Puzzle
 {
     public interface ISudokuPuzzle
     {
+        int Id { get; }
+
         List<Cell> Cells { get; }
 
         List<Cell> GetRow(int rowId);

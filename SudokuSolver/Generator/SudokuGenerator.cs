@@ -11,12 +11,12 @@ namespace Sudoku.Generator
         private Dictionary<int, List<int>> m_AvailableNumbers = new Dictionary<int, List<int>>();
         private ISudokuValidator m_Validator = new SudokuValidator();
 
-        public ISudokuPuzzle Generate(Configuration config, int? seed = null)
+        public ISudokuPuzzle Generate(SudokuDifficulty config, int? seed = null)
         {
             if (seed == null)
                 seed = new Random().Next();
 
-            SudokuPuzzle puzzle = new SudokuPuzzle();
+            SudokuPuzzle puzzle = new SudokuPuzzle((int)seed);
 
             m_AvailableNumbers.Clear();
 
@@ -38,10 +38,11 @@ namespace Sudoku.Generator
             }
 
             AdjustPuzzleToConfig(puzzle, config, (int)seed);
+
             return puzzle;
         }
 
-        private void AdjustPuzzleToConfig(ISudokuPuzzle sudoku, Configuration config, int seed)
+        private void AdjustPuzzleToConfig(ISudokuPuzzle sudoku, SudokuDifficulty config, int seed)
         {
             int vals = GetDifficulty(config);
 
@@ -64,20 +65,20 @@ namespace Sudoku.Generator
             }
         }
 
-        private int GetDifficulty(Configuration config)
+        private int GetDifficulty(SudokuDifficulty config)
         {
             switch (config)
             {
-                case Configuration.easy:
+                case SudokuDifficulty.easy:
                     return 81 - 35;
 
-                case Configuration.medium:
+                case SudokuDifficulty.medium:
                     return 81 - 30;
 
-                case Configuration.hard:
+                case SudokuDifficulty.hard:
                     return 81 - 25;
 
-                case Configuration.solved:
+                case SudokuDifficulty.solved:
                     return 0;
 
                 default:

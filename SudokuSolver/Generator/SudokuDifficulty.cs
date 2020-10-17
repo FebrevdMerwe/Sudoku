@@ -1,6 +1,6 @@
 ﻿namespace Sudoku.Generator
 {
-    public enum Configuration
+    public enum SudokuDifficulty
     {
         easy,
         medium,
