@@ -23,7 +23,7 @@ namespace Sudoku.Solver
             m_Validator = validator;
         }
 
-        public string Solve()
+        public ISudokuPuzzle Solve()
         {
             int i = 0;
             Cell[] userCells = m_Puzzle.Cells.Where(c => c is UserCell).ToArray();
@@ -47,7 +47,7 @@ namespace Sudoku.Solver
                     i++;
             }
 
-            return m_Puzzle.ToString();
+            return m_Puzzle;
         }
     }
 }
