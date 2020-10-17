@@ -26,7 +26,7 @@ namespace Sudoku.Puzzle
             Cells = new List<Cell>();
             for (int i = 0; i < 81; i++)
             {
-                Cells.Add(new UserCell(i));
+                Cells.Add(new FixedCell(i, 0));
             }
         }
 

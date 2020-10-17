@@ -11,7 +11,7 @@ namespace Sudoku.Cells
     public int Column { get; }
     public int Row { get; }
     public int Block { get; }
-    public int Value { get; protected set; }
+    public int Value { get; set; }
 
     protected Cell(int id)
     {

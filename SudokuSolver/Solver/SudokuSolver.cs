@@ -36,12 +36,12 @@ namespace Sudoku.Solver
 
                 if (val > 9)
                 {
-                    cell.SetValue(0);
+                    cell.Value = 0;
                     i--;
                     continue;
                 }
 
-                cell.SetValue(val);
+                cell.Value = val;
 
                 if (m_Validator.ValidateCell(m_Puzzle, cell))
                     i++;

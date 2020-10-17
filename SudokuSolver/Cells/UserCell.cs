@@ -10,10 +10,5 @@ namespace Sudoku.Cells
       : base(id)
     {
     }
-
-    public void SetValue(int value)
-    {
-      Value = value;
-    }
   }
 }

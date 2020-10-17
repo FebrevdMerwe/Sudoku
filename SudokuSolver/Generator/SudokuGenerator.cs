@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Sudoku.Cells;
+using Sudoku.Puzzle;
+using Sudoku.Validator;
+using System;
 using System.Collections.Generic;
 
 namespace Sudoku.Generator
@@ -6,20 +9,9 @@ namespace Sudoku.Generator
     public class SudokuGenerator
     {
         Dictionary<int, List<int>> m_AvailableNumbers = new Dictionary<int, List<int>>();
+        ISudokuValidator m_Validator = new SudokuValidator();
 
-        public string Generate(Configuration config, int? seed)
-        {
-            if (seed == null)
-                seed = new Random().Next();
-
-            string sudoku = "";
-            foreach (int num in Generate((int)seed))
-                sudoku += num;
-
-            return AdjustSolutionToConfig(sudoku, config, (int)seed);
-        }
-
-        private string AdjustSolutionToConfig(string sudoku, Configuration config, int seed)
+        private void AdjustPuzzleToConfig(ISudokuPuzzle sudoku, Configuration config, int seed)
         {
             int vals = GetDifficulty(config);
 
@@ -36,18 +28,10 @@ namespace Sudoku.Generator
                 locations.Add(location);
             }
 
-            char[] chars = sudoku.ToCharArray();
-
             foreach (int i in locations)
             {
-                chars[i] = '0';
+                sudoku.Cells[i] = new UserCell(i);
             }
-
-            return new Sudoku()
-            {
-                Puzzle = new string(chars),
-                Seed = seed
-            };
         }
 
         private int GetDifficulty(Configuration config)
@@ -67,155 +51,48 @@ namespace Sudoku.Generator
             }
         }
 
-        private int[,] Generate(int seed)
+        public ISudokuPuzzle Generate(Configuration config, int? seed)
         {
-            int[,] sudoku = new int[9, 9];
+            if (seed == null)
+                seed = new Random().Next();
+
+            SudokuPuzzle puzzle = new SudokuPuzzle();
 
             m_AvailableNumbers.Clear();
 
-            int x = 0;
-            int y = 0;
+            int i = 0;
 
-            while (y < 9)
+            while (i < 81)
             {
-                while (x < 9)
+                if (!TryGetNextNumber(i, (int)seed, out int val))
                 {
-                    if (!TryGetNextNumber(x + 1, y + 1, seed, out int val))
-                    {
-                        sudoku[y, x] = 0;
-                        if (x >= 1)
-                        {
-                            x--;
-                        }
-                        else
-                        {
-                            y--;
-                            x = 8;
-                        }
-                        continue;
-                    }
-
-                    sudoku[y, x] = val;
-
-                    if (!Validate(sudoku))
-                        x--;
-
-                    x++;
+                    puzzle.Cells[i].Value = 0;
+                    i--;
+                    continue;
                 }
-                x = 0;
-                y++;
+
+                puzzle.Cells[i].Value = val;
+
+                if (m_Validator.ValidateSudoku(puzzle))
+                    i++;
             }
 
-            return sudoku;
+            AdjustPuzzleToConfig(puzzle, config, (int)seed);
+            return puzzle;
         }
 
-        public bool Validate(int[,] sudoku)
-        {
-            if (!ValidateRows(sudoku))
-                return false;
-
-            if (!ValidateColumns(sudoku))
-                return false;
-
-            if (!ValidateBlocks(sudoku))
-                return false;
-
-            return true;
-        }
-
-        public bool ValidateRows(int[,] sudoku)
-        {
-            List<int> row = new List<int>();
-
-            for (int i = 0; i < 9; i++)
-            {
-                for (int j = 0; j < 9; j++)
-                {
-                    int val = sudoku[i, j];
-
-                    if (val == 0)
-                        continue;
-
-                    if (row.Contains(val))
-                        return false;
-
-                    row.Add(val);
-                }
-                row = new List<int>();
-            }
-
-            return true;
-        }
-
-        public bool ValidateColumns(int[,] sudoku)
-        {
-            List<int> col = new List<int>();
-
-            for (int i = 0; i < 9; i++)
-            {
-                for (int j = 0; j < 9; j++)
-                {
-                    int val = sudoku[j, i];
-
-                    if (val == 0)
-                        continue;
-
-                    if (col.Contains(val))
-                        return false;
-
-                    col.Add(val);
-                }
-                col = new List<int>();
-            }
-
-            return true;
-        }
-
-        public bool ValidateBlocks(int[,] sudoku)
-        {
-            Dictionary<int, List<int>> map = new Dictionary<int, List<int>>();
-
-            for (int i = 0; i < 9; i++)
-            {
-                for (int j = 0; j < 9; j++)
-                {
-                    int x = j / 3;
-                    int y = i / 3;
-                    int key = x + 3 * y;
-                    int val = sudoku[i, j];
-
-                    if (val == 0)
-                        continue;
-
-                    if (!map.ContainsKey(key))
-                        map.Add(key, new List<int>());
-
-                    List<int> current = map[key];
-
-                    if (current.Contains(val))
-                        return false;
-
-                    current.Add(val);
-                    map[key] = current;
-                }
-            }
-
-            return true;
-        }
-
-        private bool TryGetNextNumber(int x, int y, int seed, out int num)
+        private bool TryGetNextNumber(int id, int seed, out int num)
         {
             List<int> available = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-            int key = x * y;
 
             num = 0;
 
-            if (m_AvailableNumbers.ContainsKey(key))
-                available = m_AvailableNumbers[key];
+            if (m_AvailableNumbers.ContainsKey(id))
+                available = m_AvailableNumbers[id];
 
             if (available.Count == 0)
             {
-                m_AvailableNumbers.Remove(key);
+                m_AvailableNumbers.Remove(id);
                 return false;
             }
 
@@ -224,7 +101,7 @@ namespace Sudoku.Generator
             num = available[index];
 
             available.Remove(num);
-            m_AvailableNumbers[key] = available;
+            m_AvailableNumbers[id] = available;
 
             return true;
         }
