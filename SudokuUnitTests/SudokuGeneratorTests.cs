@@ -38,26 +38,6 @@ namespace SudokuUnitTests
         }
 
         [Test]
-        public void Medium()
-        {
-            ISudokuPuzzle puzzle = m_Generator.Generate(Configuration.medium);
-
-            bool valid = m_Validator.ValidateSudoku(puzzle);
-
-            Assert.IsTrue(valid);
-        }
-
-        [Test]
-        public void MediumWithSeed()
-        {
-            ISudokuPuzzle puzzle = m_Generator.Generate(Configuration.medium, 1);
-
-            bool valid = m_Validator.ValidateSudoku(puzzle);
-
-            Assert.IsTrue(valid);
-        }
-
-        [Test]
         public void Hard()
         {
             ISudokuPuzzle puzzle = m_Generator.Generate(Configuration.hard);
@@ -71,6 +51,26 @@ namespace SudokuUnitTests
         public void HardWithSeed()
         {
             ISudokuPuzzle puzzle = m_Generator.Generate(Configuration.hard, 2);
+
+            bool valid = m_Validator.ValidateSudoku(puzzle);
+
+            Assert.IsTrue(valid);
+        }
+
+        [Test]
+        public void Medium()
+        {
+            ISudokuPuzzle puzzle = m_Generator.Generate(Configuration.medium);
+
+            bool valid = m_Validator.ValidateSudoku(puzzle);
+
+            Assert.IsTrue(valid);
+        }
+
+        [Test]
+        public void MediumWithSeed()
+        {
+            ISudokuPuzzle puzzle = m_Generator.Generate(Configuration.medium, 1);
 
             bool valid = m_Validator.ValidateSudoku(puzzle);
 

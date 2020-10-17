@@ -20,25 +20,9 @@ namespace SudokuUnitTests
         }
 
         [Test]
-        public void SolveValidString()
+        public void SolveCompleteString()
         {
-            string puzzle = "540072009000901000009460007050040020200000040910600785430590200000180056605200100";
-            ISudokuSolver solver = new SudokuSolver(puzzle, m_Validator);
-
-            string actual = solver.Solve().ToString();
-
-            string expected = "546372819378951462129468537853749621267815943914623785431596278792184356685237194";
-
-            Assert.AreEqual(expected, actual);
-        }
-
-        [Test]
-        public void SolveValidPuzzle()
-        {
-            string puzzleString = "540072009000901000009460007050040020200000040910600785430590200000180056605200100";
-
-            ISudokuPuzzle puzzle = new SudokuPuzzle(puzzleString);
-
+            string puzzle = "546372819378951462129468537853749621267815943914623785431596278792184356685237194";
             ISudokuSolver solver = new SudokuSolver(puzzle, m_Validator);
 
             string actual = solver.Solve().ToString();
@@ -58,9 +42,12 @@ namespace SudokuUnitTests
         }
 
         [Test]
-        public void SolveCompleteString()
+        public void SolveValidPuzzle()
         {
-            string puzzle = "546372819378951462129468537853749621267815943914623785431596278792184356685237194";
+            string puzzleString = "540072009000901000009460007050040020200000040910600785430590200000180056605200100";
+
+            ISudokuPuzzle puzzle = new SudokuPuzzle(puzzleString);
+
             ISudokuSolver solver = new SudokuSolver(puzzle, m_Validator);
 
             string actual = solver.Solve().ToString();
@@ -70,6 +57,18 @@ namespace SudokuUnitTests
             Assert.AreEqual(expected, actual);
         }
 
+        [Test]
+        public void SolveValidString()
+        {
+            string puzzle = "540072009000901000009460007050040020200000040910600785430590200000180056605200100";
+            ISudokuSolver solver = new SudokuSolver(puzzle, m_Validator);
+
+            string actual = solver.Solve().ToString();
+
+            string expected = "546372819378951462129468537853749621267815943914623785431596278792184356685237194";
+
+            Assert.AreEqual(expected, actual);
+        }
         [Test]
         public void UnSolvableString()
         {

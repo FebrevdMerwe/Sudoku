@@ -19,15 +19,20 @@ namespace SudokuUnitTests
         }
 
         [Test]
-        public void ValidSolved()
+        public void InvalidCell()
         {
-            string puzzleString = "876549321543182769291763854385471692964328175127695438752816943419237586638954217";
+            string puzzleString = "540070009000901000009460000050040020200000040910600785030590200000180006605200000";
 
             SudokuPuzzle puzzle = new SudokuPuzzle(puzzleString);
 
-            bool res = m_Validator.ValidateSudoku(puzzle);
+            Cell cell = new UserCell(2)
+            {
+                Value = 5
+            };
 
-            Assert.IsTrue(res);
+            bool res = m_Validator.ValidateCell(puzzle, cell);
+
+            Assert.IsFalse(res);
         }
 
         [Test]
@@ -40,18 +45,6 @@ namespace SudokuUnitTests
             bool res = m_Validator.ValidateSudoku(puzzle);
 
             Assert.IsFalse(res);
-        }
-
-        [Test]
-        public void ValidUnsolved()
-        {
-            string puzzleString = "000006000510900340000000250700000008000002900003460102008004017096870004472050000";
-
-            SudokuPuzzle puzzle = new SudokuPuzzle(puzzleString);
-
-            bool res = m_Validator.ValidateSudoku(puzzle);
-
-            Assert.IsTrue(res);
         }
 
         [Test]
@@ -83,22 +76,27 @@ namespace SudokuUnitTests
             Assert.IsTrue(res);
         }
 
-
         [Test]
-        public void InvalidCell()
+        public void ValidSolved()
         {
-            string puzzleString = "540070009000901000009460000050040020200000040910600785030590200000180006605200000";
+            string puzzleString = "876549321543182769291763854385471692964328175127695438752816943419237586638954217";
 
             SudokuPuzzle puzzle = new SudokuPuzzle(puzzleString);
 
-            Cell cell = new UserCell(2)
-            {
-                Value = 5
-            };
+            bool res = m_Validator.ValidateSudoku(puzzle);
 
-            bool res = m_Validator.ValidateCell(puzzle, cell);
+            Assert.IsTrue(res);
+        }
+        [Test]
+        public void ValidUnsolved()
+        {
+            string puzzleString = "000006000510900340000000250700000008000002900003460102008004017096870004472050000";
 
-            Assert.IsFalse(res);
+            SudokuPuzzle puzzle = new SudokuPuzzle(puzzleString);
+
+            bool res = m_Validator.ValidateSudoku(puzzle);
+
+            Assert.IsTrue(res);
         }
     }
 }
