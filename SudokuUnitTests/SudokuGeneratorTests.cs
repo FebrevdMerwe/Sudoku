@@ -7,8 +7,8 @@ namespace SudokuUnitTests
 {
     public class SudokuGeneratorTests
     {
-        private SudokuGenerator m_Generator;
-        private SudokuValidator m_Validator;
+        private ISudokuGenerator m_Generator;
+        private ISudokuValidator m_Validator;
 
         [SetUp]
         public void Setup()
