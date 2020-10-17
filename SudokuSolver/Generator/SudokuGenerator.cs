@@ -8,8 +8,8 @@ namespace Sudoku.Generator
 {
     public class SudokuGenerator
     {
-        Dictionary<int, List<int>> m_AvailableNumbers = new Dictionary<int, List<int>>();
-        ISudokuValidator m_Validator = new SudokuValidator();
+        private Dictionary<int, List<int>> m_AvailableNumbers = new Dictionary<int, List<int>>();
+        private ISudokuValidator m_Validator = new SudokuValidator();
 
         private void AdjustPuzzleToConfig(ISudokuPuzzle sudoku, Configuration config, int seed)
         {
@@ -40,18 +40,22 @@ namespace Sudoku.Generator
             {
                 case Configuration.easy:
                     return 81 - 35;
+
                 case Configuration.medium:
                     return 81 - 30;
+
                 case Configuration.hard:
                     return 81 - 25;
+
                 case Configuration.solved:
                     return 0;
+
                 default:
                     throw new NotImplementedException($"{config.ToString()} is not implemented");
             }
         }
 
-        public ISudokuPuzzle Generate(Configuration config, int? seed)
+        public ISudokuPuzzle Generate(Configuration config, int? seed = null)
         {
             if (seed == null)
                 seed = new Random().Next();

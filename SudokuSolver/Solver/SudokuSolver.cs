@@ -1,7 +1,6 @@
 ﻿using Sudoku.Cells;
 using Sudoku.Puzzle;
 using Sudoku.Validator;
-using System;
 using System.Linq;
 
 namespace Sudoku.Solver

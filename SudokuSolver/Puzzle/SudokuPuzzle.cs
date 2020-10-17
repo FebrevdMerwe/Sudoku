@@ -1,5 +1,4 @@
 ﻿using Sudoku.Cells;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -30,7 +29,6 @@ namespace Sudoku.Puzzle
             }
         }
 
-
         public List<Cell> GetRow(int rowId)
         {
             return Cells.Where(c => c.Row == rowId).ToList();
@@ -49,7 +47,7 @@ namespace Sudoku.Puzzle
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            foreach (Cell cell in Cells.OrderBy(c=>c.Id))
+            foreach (Cell cell in Cells.OrderBy(c => c.Id))
             {
                 sb.Append(cell.Value);
             }
