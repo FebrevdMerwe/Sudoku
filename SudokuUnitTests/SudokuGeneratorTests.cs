@@ -20,7 +20,7 @@ namespace SudokuUnitTests
         [Test]
         public void Easy()
         {
-            ISudokuPuzzle puzzle = m_Generator.Generate(Configuration.easy);
+            ISudokuPuzzle puzzle = m_Generator.Generate(SudokuDifficulty.easy);
 
             bool valid = m_Validator.ValidateSudoku(puzzle);
 
@@ -30,7 +30,7 @@ namespace SudokuUnitTests
         [Test]
         public void EasyWithSeed()
         {
-            ISudokuPuzzle puzzle = m_Generator.Generate(Configuration.easy, 0);
+            ISudokuPuzzle puzzle = m_Generator.Generate(SudokuDifficulty.easy, 0);
 
             bool valid = m_Validator.ValidateSudoku(puzzle);
 
@@ -40,7 +40,7 @@ namespace SudokuUnitTests
         [Test]
         public void Hard()
         {
-            ISudokuPuzzle puzzle = m_Generator.Generate(Configuration.hard);
+            ISudokuPuzzle puzzle = m_Generator.Generate(SudokuDifficulty.hard);
 
             bool valid = m_Validator.ValidateSudoku(puzzle);
 
@@ -50,7 +50,7 @@ namespace SudokuUnitTests
         [Test]
         public void HardWithSeed()
         {
-            ISudokuPuzzle puzzle = m_Generator.Generate(Configuration.hard, 2);
+            ISudokuPuzzle puzzle = m_Generator.Generate(SudokuDifficulty.hard, 2);
 
             bool valid = m_Validator.ValidateSudoku(puzzle);
 
@@ -60,7 +60,7 @@ namespace SudokuUnitTests
         [Test]
         public void Medium()
         {
-            ISudokuPuzzle puzzle = m_Generator.Generate(Configuration.medium);
+            ISudokuPuzzle puzzle = m_Generator.Generate(SudokuDifficulty.medium);
 
             bool valid = m_Validator.ValidateSudoku(puzzle);
 
@@ -70,7 +70,7 @@ namespace SudokuUnitTests
         [Test]
         public void MediumWithSeed()
         {
-            ISudokuPuzzle puzzle = m_Generator.Generate(Configuration.medium, 1);
+            ISudokuPuzzle puzzle = m_Generator.Generate(SudokuDifficulty.medium, 1);
 
             bool valid = m_Validator.ValidateSudoku(puzzle);
 
@@ -80,7 +80,7 @@ namespace SudokuUnitTests
         [Test]
         public void Solved()
         {
-            ISudokuPuzzle puzzle = m_Generator.Generate(Configuration.solved);
+            ISudokuPuzzle puzzle = m_Generator.Generate(SudokuDifficulty.solved);
 
             bool valid = m_Validator.ValidateSudoku(puzzle);
 
@@ -90,7 +90,7 @@ namespace SudokuUnitTests
         [Test]
         public void SolvedWithSeed()
         {
-            ISudokuPuzzle puzzle = m_Generator.Generate(Configuration.solved, 3);
+            ISudokuPuzzle puzzle = m_Generator.Generate(SudokuDifficulty.solved, 3);
 
             bool valid = m_Validator.ValidateSudoku(puzzle);
 
